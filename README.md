@@ -123,11 +123,14 @@ max_iters = 500      # Language modeling iterations
 - **Language Modeling**: Perplexity on train and test sets
 - **Visualization**: Attention heatmaps for model interpretability
 
-### Generated Files
+Generated Files:
+- test_accuracy_.png - Classification accuracy plot
+- decoder_perplexity_file.png - Language modeling perplexity plot
+- attention_map_*.png - Attention visualization heatmaps
 
-- `test_accuracy_.png` – Classification accuracy plot
-- `decoder_perplexity_file.png` – Language modeling perplexity plot
-- `attention_map_*.png` – Attention visualization heatmaps
+![Example Test Accuracy Graph](Static/test_accuracy_example.png)
+
+![Example Attention Map](Static/example_attention_map_1.png)
 
 ---
 
