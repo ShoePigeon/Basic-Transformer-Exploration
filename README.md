@@ -3,8 +3,8 @@ Transformer Text Classification and Language Modeling System
 
 A comprehensive PyTorch implementation of Transformer models for both supervised text classification and unsupervised language modeling tasks
 
-Project Structure (Basic Model)
------------------
+## Project Structure (Basic Model)
+```
 .
 ├── main.py              # Main training script with CLI interface
 ├── transformer.py       # Transformer encoder/decoder model architectures
@@ -16,6 +16,8 @@ Project Structure (Basic Model)
     ├── test_CLS.tsv     # Classification test data
     ├── train_LM.txt     # Language modeling training text
     └── test_LM_*.txt    # Language modeling test texts
+```
+
 
 Features
 --------
@@ -53,35 +55,51 @@ Transformer Decoder (TransformerDecoder)
 - Output: Next-token probabilities and attention maps
 - Training: Self-supervised next-word prediction
 
-Quick Start
------------
+## Quick Start
 
-Installation
-# Clone the repository
+### Installation
+
+Clone the repository and navigate to the model directory:
+
+```bash
 git clone https://github.com/ShoePigeon/Basic-Transformer-Exploration.git
 cd Basic-Transformer-Exploration/Basic_Model
+```
 
-# Install dependencies
+Install the required dependencies:
+
+```bash
 pip install torch nltk matplotlib scikit-learn
+```
 
-Data Preparation
-Place your data files in the 'speechesdataset/' directory with the following structure:
-- train_CLS.tsv, test_CLS.tsv: Tab-separated files with 'label\tsentence' format
-- train_LM.txt, test_LM_*.txt: Raw text files for language modeling
+### Data Preparation
 
-Training
---------
+Place your data files in the `speechesdataset/` directory with the following structure:
 
-Text Classification (Encoder)
+- `train_CLS.tsv`, `test_CLS.tsv`: Tab-separated files with `label<TAB>sentence` format (i.e., one labeled sentence per line).
+- `train_LM.txt`, `test_LM_*.txt`: Raw text files for language modeling.
+
+## Training
+
+### Text Classification (Encoder)
+
+```bash
 python main.py --model encoder
+```
 
-Language Modeling (Decoder)
+### Language Modeling (Decoder)
+
+```bash
 python main.py --model decoder
+```
 
-Configuration
--------------
+---
 
-Hyperparameters (in main.py)
+## Configuration
+
+### Hyperparameters (in `main.py`)
+
+```python
 # Model Architecture
 batch_size = 16      # Training batch size
 block_size = 32      # Sequence length (context window)
@@ -93,69 +111,86 @@ n_layer = 4          # Number of transformer layers
 learning_rate = 1e-3 # Optimizer learning rate
 epochs_CLS = 15      # Classification training epochs
 max_iters = 500      # Language modeling iterations
+```
 
-Outputs
--------
+---
 
-During Training:
-- Classification: Training loss, train/test accuracy
-- Language Modeling: Perplexity on train and test sets
-- Visualization: Attention heatmaps for model interpretability
+## Outputs
 
-Generated Files:
-- test_accuracy_.png - Classification accuracy plot
-- decoder_perplexity_file.png - Language modeling perplexity plot
-- attention_map_*.png - Attention visualization heatmaps
+### During Training
 
-Key Components
---------------
+- **Classification**: Training loss, train/test accuracy
+- **Language Modeling**: Perplexity on train and test sets
+- **Visualization**: Attention heatmaps for model interpretability
 
-Tokenizer (tokenizer.py)
+### Generated Files
+
+- `test_accuracy_.png` – Classification accuracy plot
+- `decoder_perplexity_file.png` – Language modeling perplexity plot
+- `attention_map_*.png` – Attention visualization heatmaps
+
+---
+
+## Key Components
+
+### Tokenizer (`tokenizer.py`)
+
 - Word-level tokenization using NLTK
 - Vocabulary built from training data
-- Handles <pad> and <unk> tokens
+- Handles `<pad>` and `<unk>` tokens
 - Encodes text to indices and decodes back
 
-Datasets (dataset.py)
-- SpeechesClassificationDataset: For supervised classification
-- LanguageModelingDataset: For unsupervised language modeling
+### Datasets (`dataset.py`)
 
-Utilities (utilities.py)
+- `SpeechesClassificationDataset`: For supervised classification
+- `LanguageModelingDataset`: For unsupervised language modeling
+
+### Utilities (`utilities.py`)
+
 - Attention visualization with heatmaps
 - Model sanity checks
 - Debugging and interpretability tools
 
-Model Details
--------------
+---
 
-Multi-Head Attention
+## Model Details
+
+### Multi-Head Attention
+
 - Scaled dot-product attention
 - Multiple attention heads for capturing different patterns
 - Layer normalization and residual connections
 
-Training Process
-- Classification: Cross-entropy loss with Adam optimizer
-- Language Modeling: Next-token prediction with cross-entropy
+### Training Process
+
+- **Classification**: Cross-entropy loss with Adam optimizer
+- **Language Modeling**: Next-token prediction with cross-entropy
 - Automatic GPU detection and utilization
 
-Evaluation Metrics
-------------------
+---
 
-- Classification: Accuracy (%) on test set
-- Language Modeling: Perplexity (lower is better)
+## Evaluation Metrics
 
-Visualization
--------------
+- **Classification**: Accuracy (%) on test set
+- **Language Modeling**: Perplexity (lower is better)
+
+---
+
+## Visualization
 
 The system generates:
+
 1. Training curves for accuracy/perplexity
 2. Attention heatmaps showing what the model focuses on
 3. Model sanity checks with example predictions
 
-Model Usage Examples
---------------------
+---
 
-For Classification:
+## Model Usage Examples
+
+### For Classification
+
+```python
 from transformer import TransformerClassifier
 from tokenizer import SimpleTokenizer
 
@@ -164,29 +199,36 @@ model = TransformerClassifier(vocab_size, n_embd, n_head, n_layer, n_input, n_hi
 
 # Get predictions
 logits, attention_maps = model(input_tokens)
+```
 
-For Language Modeling:
+### For Language Modeling
+
+```python
 from transformer import TransformerDecoder
 
-# Initialize model  
+# Initialize model
 model = TransformerDecoder(vocab_size, n_embd, n_head, n_layer, n_input, n_hidden, vocab_size, block_size)
 
 # Get next-token predictions
 loss, attention_maps = model(input_tokens, target_tokens)
+```
 
-Notes
------
+---
 
-- The tokenizer uses NLTK's word_tokenize - ensure you have the required NLTK data
-- Models automatically use GPU if available
-- Attention visualization helps interpret model decisions
-- Language modeling is completely unsupervised - no labeled data required
-** This project was developed as part of CSE 256: Natural Language Processing 
-at University of California, San Diego, with inspiration from Andrej Karpathy's "Let's build GPT" tutorial, which provides excellent explanations of transformer 
-architectures and training approaches.
+## Notes
 
-Requirements
-------------
+- The tokenizer uses NLTK’s `word_tokenize` — ensure you have the required NLTK data.
+- Models automatically use GPU if available.
+- Attention visualization helps interpret model decisions.
+- Language modeling is completely unsupervised — no labeled data required.
+
+> **This project was developed as part of CSE 256: Natural Language Processing**  
+> at University of California, San Diego, with inspiration from Andrej Karpathy’s  
+> ["Let’s build GPT"](https://github.com/karpathy/minGPT) tutorial.
+
+---
+
+## Requirements
 
 - Python 3.6+
 - PyTorch
@@ -194,32 +236,46 @@ Requirements
 - Matplotlib
 - scikit-learn
 
-Data Format Examples
---------------------
+---
 
-Classification Data (train_CLS.tsv):
-0	This is a positive speech example
-1	This is a negative speech example
-2	This is a neutral speech example
+## Data Format Examples
 
-Language Modeling Data (train_LM.txt):
+### Classification Data (`train_CLS.tsv`)
+
+```
+0   This is a positive speech example
+1   This is a negative speech example
+2   This is a neutral speech example
+```
+
+### Language Modeling Data (`train_LM.txt`)
+
+```
 Raw text without any labels. The model learns to predict the next word in sequences.
+```
 
-Troubleshooting
----------------
+---
 
-1. If you get NLTK errors, run:
-   import nltk
-   nltk.download('punkt')
+## Troubleshooting
 
-2. If you get file not found errors, ensure:
-   - speechesdataset/ directory exists
-   - All required data files are present
-   - File paths are correct
+1. **NLTK errors?** Run:
 
-3. For GPU issues:
-   - The code automatically detects CUDA availability
-   - If you want to force CPU, modify device assignment in main.py
+    ```python
+    import nltk
+    nltk.download('punkt')
+    ```
+
+2. **File not found errors?** Ensure:
+
+    - `speechesdataset/` directory exists
+    - All required data files are present
+    - File paths are correct
+
+3. **GPU issues?**
+
+    - The code automatically detects CUDA availability.
+    - To force CPU usage, modify the `device` assignment in `main.py`.
+
 
 References
 ----------
